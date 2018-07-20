@@ -1,0 +1,12 @@
+Django==1.11.1
+oauthlib==1.1.2
+PyJWT==1.4.2
+requests==2.11.1
+requests-oauthlib==0.6.2
+six==1.10.0
+wheel==0.26.0
+
+djangorestframework==3.6.4
+django-filter
+django-rest-swagger==2.1.2
+django-cors-headers
