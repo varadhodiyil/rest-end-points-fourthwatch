@@ -34,8 +34,8 @@ if ISDEV:
     mysql_host = '127.0.0.1'
 else:
 	mysql_user = 'root'
-	mysql_password = 'dropme123!applewindows'
-	mysql_host = '127.0.0.1'
+	mysql_password = '8080_1080'
+	mysql_host = 'localhost'
 # Application definition
 
 INSTALLED_APPS = [
