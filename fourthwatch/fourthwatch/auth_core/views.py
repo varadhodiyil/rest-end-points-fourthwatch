@@ -37,9 +37,15 @@ class BankRegistration(GenericAPIView):
 				business_emp = models.BankEmployee(bank=instance,is_admin=True)
 				business_emp.save()
 				user_s.validated_data['user_type'] = business_emp
+
+				has_rec = models.Users.objects.filter(username= user_s.validated_data['email'])
+				if has_rec.count() > 0:
+					instance.delete()
+					business_emp.delete()
+					result['status'] = True
+					result['error'] = "Account with Email already Exists!"
+					return Response(result,status=status.HTTP_400_BAD_REQUEST)
 				user_instance = models.Users(**user_s.validated_data)
-				# instance.delete()
-				# user_instance = user_s.save()
 				user_instance.set_password(user_instance.password)
 				user_instance.save()
 				result['status'] = True
@@ -84,6 +90,15 @@ class BankEmployeeRegistration(GenericAPIView):
 				user_s.validated_data['username'] = user_s.validated_data['email']
 				
 				user_s.validated_data['user_type'] = business_emp
+
+				has_rec = models.Users.objects.filter(username= user_s.validated_data['email'])
+				if has_rec.count() > 0:
+					#instance.delete()
+					business_emp.delete()
+					result['status'] = True
+					result['error'] = "Account with Email already Exists!"
+					return Response(result,status=status.HTTP_400_BAD_REQUEST)
+
 				user_instance = models.Users(**user_s.validated_data)
 				# instance.delete()
 				# user_instance = user_s.save()
@@ -123,15 +138,21 @@ class UserRegistration(GenericAPIView):
 			s.validated_data.pop('user')
 			customer = s.save()
 			user['user_type'] = customer
-
+			
 			user_s = serializers.UserRegistrationSerializer(data = user)
 			if user_s.is_valid():
 				user_s.validated_data['username'] = user_s.validated_data['email']
 				
 				user_s.validated_data['user_type'] = customer
 				user_instance = models.Users(**user_s.validated_data)
-				# instance.delete()
-				# user_instance = user_s.save()
+				has_rec = models.Users.objects.filter(username= user_s.validated_data['email'])
+				if has_rec.count() > 0:
+					#instance.delete()
+					customer.delete()
+					result['status'] = True
+					result['error'] = "Account with Email already Exists!"
+					return Response(result,status=status.HTTP_400_BAD_REQUEST)
+
 				user_instance.set_password(user_instance.password)
 				user_instance.save()
 				result['status'] = True

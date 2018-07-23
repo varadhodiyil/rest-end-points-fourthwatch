@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import AbstractUser
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey , GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
@@ -11,20 +11,6 @@ from hashlib import sha1
 
 import datetime
 TOKEN_EXPIRE_TIME = datetime.timedelta(days=30)
-class Bank(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100,unique=True)
-
-
-class BankEmployee(models.Model):
-    id = models.AutoField(primary_key=True)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    is_admin = models.BooleanField(default=False)
-
-class Customer(models.Model):
-    id = models.AutoField(primary_key=True)
-    bank = models.ForeignKey(Bank,on_delete=models.CASCADE)
-    company = models.CharField(max_length=100)
 
 class Users(AbstractUser):
     content_type = models.ForeignKey(ContentType)
@@ -33,6 +19,27 @@ class Users(AbstractUser):
 
     class Meta:
         db_table = "users"
+
+class Bank(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100,unique=True)
+
+
+class BankEmployee(models.Model):
+    objects = models.Manager()
+    
+    id = models.AutoField(primary_key=True)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)
+    user = GenericRelation(Users)
+
+class Customer(models.Model):
+    objects = models.Manager()
+    id = models.AutoField(primary_key=True)
+    bank = models.ForeignKey(Bank,on_delete=models.CASCADE)
+    company = models.CharField(max_length=100)
+    user = GenericRelation(Users)
+
 
 
 class TokenManager(models.Manager):

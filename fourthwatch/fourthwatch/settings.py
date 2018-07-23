@@ -25,7 +25,7 @@ SECRET_KEY = '^8$#8oo^drp=_auzxc3i-(+9g_u5=2er0)7)9acs1e4)4d#&1f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 ISDEV = True
 if ISDEV:
@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
 	'rest_framework_swagger',
 	'corsheaders',
-    'fourthwatch.auth_core'
+    'fourthwatch.auth_core',
+    'fourthwatch.loc'
 ]
 
 MIDDLEWARE = [
@@ -135,8 +136,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_URL = '/static/'
-
+STATIC_ROOT = [
+    os.path.join(BASE_DIR,"static")
+]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -163,3 +165,6 @@ REST_FRAMEWORK = {
 }
 
 COMPOSER_REST_ENDPOINT = "http://35.185.217.20:3000/api/"
+
+MEDIA_ROOT =  os.path.join(BASE_DIR,"media")
+MEDIA_URL = '/media/'

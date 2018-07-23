@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import check_password
 class UserRegistrationSerializer(serializers.ModelSerializer):
 	email = serializers.EmailField()
 	first_name = serializers.CharField()
-	last_name = serializers.CharField()
+
 	def create(self, validated_data):
 		email = self.validated_data['email']
 		self.validated_data['username'] = email
