@@ -35,6 +35,7 @@ class InitialLOC:
 			],
 			"status": "AWAITING_APPROVAL"
 		}
+
 		return requests.post(self.api_url, json=data).json()
 
 

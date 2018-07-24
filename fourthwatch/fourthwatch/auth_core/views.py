@@ -203,6 +203,7 @@ class Profile(GenericAPIView):
 		if request.user.is_authenticated():
 			result['result'] = data
 			result['status'] = True
+			result['user_type'] = request.user.user_type.__str__()
 		else:
 			result['error'] = "Please Login to Continue"
 			result['status'] = False

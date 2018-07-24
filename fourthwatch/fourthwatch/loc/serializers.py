@@ -26,6 +26,8 @@ class NotificationSerializer(serializers.ModelSerializer):
 	def to_representation(self, instance):
 		data = super(NotificationSerializer, self).to_representation(instance)
 		data['sent_at'] = timesince.timesince(instance.sent_at)
+		if instance.seen_at is not None:
+			data['seen_at'] = timesince.timesince(instance.seen_at)
 		return data
 	class Meta:
 		model = Notifications

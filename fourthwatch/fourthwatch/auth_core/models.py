@@ -24,11 +24,17 @@ class Users(AbstractUser):
         db_table = "users"
 
 class Bank(models.Model):
+    def __str__(self):
+        return "BankEmpolyee"
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,unique=True)
 
 
 class BankEmployee(models.Model):
+    def __str__(self):
+        if self.is_admin:
+            return "Bank"
+        return "BankEmpolyee"
     objects = models.Manager()
     
     id = models.AutoField(primary_key=True)
@@ -37,6 +43,8 @@ class BankEmployee(models.Model):
     user = GenericRelation(Users)
 
 class Customer(models.Model):
+    def __str__(self):
+        return "Customer"
     objects = models.Manager()
     id = models.AutoField(primary_key=True)
     bank = models.ForeignKey(Bank,on_delete=models.CASCADE)
