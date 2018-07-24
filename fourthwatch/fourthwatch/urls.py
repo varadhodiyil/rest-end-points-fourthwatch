@@ -19,7 +19,7 @@ from rest_framework_swagger.views import get_swagger_view
 from django.conf import settings
 from django.conf.urls.static import static
 
-from fourthwatch.loc.views import Notifications
+from fourthwatch.loc.views import Notifications , NotificationMarkRead
 schema_view = get_swagger_view(title="Euroxim API's")
 
 urlpatterns = [
@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'', include('fourthwatch.auth_core.urls')),
     url(r'', include('fourthwatch.loc.urls')),
     url(r'notifications/$', Notifications.as_view(), name="notifications"),
+    url(r'notifications/mark_read/$', NotificationMarkRead.as_view(), name="notifications_mark_read"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
