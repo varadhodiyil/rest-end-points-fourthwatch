@@ -19,7 +19,7 @@ from fourthwatch.auth_core import models, resources, serializers , class_model
 class BankRegistration(GenericAPIView):
 	""" Bank Registration """
 	serializer_class = serializers.BankRegistrationSerializer
-	parser_classes = ((JSONParser, FormParser))
+	parser_classes = (JSONParser, FormParser)
 
 	def post(self, request, *args, **kwargs):
 		data = request.data
@@ -73,7 +73,7 @@ class BankRegistration(GenericAPIView):
 class BankEmployeeRegistration(GenericAPIView):
 	""" Bank Registration """
 	serializer_class = serializers.BankEmployeeRegistrationSerializer
-	parser_classes = ((JSONParser, FormParser))
+	parser_classes = (JSONParser, FormParser)
 
 	def post(self, request, *args, **kwargs):
 		data = request.data
@@ -179,7 +179,7 @@ class UserRegistration(GenericAPIView):
 class UserLogin(GenericAPIView):
 	""" User Login """
 	serializer_class = serializers.UserLoginSerializer
-	parser_classes = ((JSONParser, FormParser))
+	parser_classes = (JSONParser, FormParser)
 
 	def post(self, request, *args, **kwargs):
 		s = serializers.UserLoginSerializer(data=request.data)

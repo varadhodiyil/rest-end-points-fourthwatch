@@ -74,7 +74,7 @@ class LOCAPI(GenericAPIView):
 
 class InitiateLOC(GenericAPIView):
     serializer_class = serializers.InitiateLOCSerializer
-    parser_classes = ((JSONParser, MultiPartParser))
+    parser_classes = (JSONParser, MultiPartParser)
 
     def get(self, request, *args, **kwargs):
         user = request.user
