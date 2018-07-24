@@ -28,3 +28,12 @@ class Notifications(models.Model):
 	seen_at = models.DateTimeField(null=True)
 	notification_to = models.ForeignKey(Users,on_delete=models.CASCADE)
 	loc = models.ForeignKey(LOC,on_delete=models.CASCADE)
+
+
+class Transaction(models.Model):
+	objects = models.Manager()
+
+	id = models.AutoField(primary_key=True)
+	loc = models.ForeignKey(LOC,on_delete=models.CASCADE)
+	party = models.ForeignKey(Users,on_delete=models.CASCADE)
+	type = models.CharField(max_length=20)

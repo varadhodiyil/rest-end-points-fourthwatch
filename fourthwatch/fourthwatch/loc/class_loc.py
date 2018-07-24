@@ -35,19 +35,114 @@ class InitialLOC:
 			],
 			"status": "AWAITING_APPROVAL"
 		}
-		print data
 		return requests.post(self.api_url, json=data).json()
 
 
 class Approve:
+	def __init__(self):
+		self.api_url = BASE_URL + "Approve"
+		
+	def create(self, letter_id, Customer, customer_type):
+		if type(customer_type) == BankEmployee:
+			party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
+		else:
+			party = "resource:org.fourthwatch.Customer#%s" % Customer
+		data = {
+			"$class": "org.fourthwatch.Approve",
+			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
+			"approvingParty": party
+		}
+		
+		return requests.post(self.api_url, json=data).json()
 
-    def approve(self, letter_id, Customer, customer_type):
-        if type(customer_type) == BankEmployee:
-            party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
-        else:
-            party = "resource:org.fourthwatch.Customer#%s" % Customer
-        data = {
-            "$class": "org.fourthwatch.Approve",
-            "loc": "resource:org.fourthwatch.LetterOfCredit#5160",
-            "approvingParty": party
-        }
+class Reject:
+	def __init__(self):
+		self.api_url = BASE_URL + "Reject"
+		
+	def create(self, letter_id, Customer, customer_type,closeReason):
+		if type(customer_type) == BankEmployee:
+			party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
+		else:
+			party = "resource:org.fourthwatch.Customer#%s" % Customer
+		data = {
+			"$class":"org.fourthwatch.Reject",
+			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
+			"approvingParty": party,
+			"closeReason":closeReason
+		}
+		
+		return requests.post(self.api_url, json=data).json()
+
+
+
+class ShipProduct:
+	def __init__(self):
+		self.api_url = BASE_URL + "ShipProduct"
+		
+	def create(self, letter_id, Customer, customer_type,evidence):
+		if type(customer_type) == BankEmployee:
+			party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
+		else:
+			party = "resource:org.fourthwatch.Customer#%s" % Customer
+		data = {
+			"$class":"org.fourthwatch.ShipProduct",
+			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
+			"approvingParty": party,
+			"evidence":evidence
+		}
+		
+		return requests.post(self.api_url, json=data).json()
+
+
+class ReceiveProduct:
+	def __init__(self):
+		self.api_url = BASE_URL + "ReceiveProduct"
+		
+	def create(self, letter_id, Customer, customer_type):
+		if type(customer_type) == BankEmployee:
+			party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
+		else:
+			party = "resource:org.fourthwatch.Customer#%s" % Customer
+		data = {
+			"$class":"org.fourthwatch.ShipProduct",
+			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
+			"approvingParty": party
+		}
+		
+		return requests.post(self.api_url, json=data).json()
+
+
+class ReadyForPayment:
+	def __init__(self):
+		self.api_url = BASE_URL + "ReadyForPayment"
+		
+	def create(self, letter_id, Customer, customer_type):
+		if type(customer_type) == BankEmployee:
+			party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
+		else:
+			party = "resource:org.fourthwatch.Customer#%s" % Customer
+		data = {
+			"$class":"org.fourthwatch.ReadyForPayment",
+			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
+			"approvingParty": party
+		}
+		
+		return requests.post(self.api_url, json=data).json()
+
+class PaymentReceived:
+	def __init__(self):
+		self.api_url = BASE_URL + "Close"
+		
+	def create(self, letter_id, Customer, customer_type,closeReason):
+		if type(customer_type) == BankEmployee:
+			party = "resource:org.fourthwatch.BankEmployee#%s" % Customer
+		else:
+			party = "resource:org.fourthwatch.Customer#%s" % Customer
+		data = {
+			"$class":"org.fourthwatch.Close",
+			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
+			"approvingParty": party,
+			"closeReason": closeReason
+		}
+		
+		return requests.post(self.api_url, json=data).json()

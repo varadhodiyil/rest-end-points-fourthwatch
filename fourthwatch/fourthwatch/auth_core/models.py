@@ -13,6 +13,9 @@ import datetime
 TOKEN_EXPIRE_TIME = datetime.timedelta(days=30)
 
 class Users(AbstractUser):
+    @property
+    def name(self):
+        return self.first_name + " " + self.last_name
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     user_type = GenericForeignKey('content_type', 'object_id')

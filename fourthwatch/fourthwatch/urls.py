@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', schema_view),
     url(r'', include('fourthwatch.auth_core.urls')),
-    url(r'loc/', include('fourthwatch.loc.urls')),
+    url(r'', include('fourthwatch.loc.urls')),
     url(r'notifications/$', Notifications.as_view(), name="notifications"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
