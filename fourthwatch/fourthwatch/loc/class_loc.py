@@ -91,7 +91,7 @@ class ShipProduct:
 			"approvingParty": party,
 			"evidence":evidence
 		}
-		
+
 		return requests.post(self.api_url, json=data).json()
 
 
@@ -105,7 +105,7 @@ class ReceiveProduct:
 		else:
 			party = "resource:org.fourthwatch.Customer#%s" % Customer
 		data = {
-			"$class":"org.fourthwatch.ShipProduct",
+			"$class":"org.fourthwatch.ReceiveProduct",
 			"loc": "resource:org.fourthwatch.LetterOfCredit#%s" %letter_id,
 			"approvingParty": party
 		}
