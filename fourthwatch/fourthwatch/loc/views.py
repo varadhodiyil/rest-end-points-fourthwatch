@@ -171,16 +171,18 @@ class InitiateLOC(GenericAPIView):
                 applicant_bank_employee = auth_models.BankEmployee.objects.filter(
                     bank=user.user_type.bank, is_admin=False)
                 for a in applicant_bank_employee:
-                    user_obj = a.user.get()
-                    notification['notification_to'] = user_obj
-                    models.Notifications(**notification).save()
+                    if a.user.count() > 0:
+                        user_obj = a.user.get()
+                        notification['notification_to'] = user_obj
+                        models.Notifications(**notification).save()
 
                 applicant_bank_employee = auth_models.BankEmployee.objects.filter(bank=s.validated_data['beneficiary']
                                                                                   .user_type.bank, is_admin=False)
                 for a in applicant_bank_employee:
-                    user_obj = a.user.get()
-                    notification['notification_to'] = user_obj
-                    models.Notifications(**notification).save()
+                    if a.user.count() > 0:
+                        user_obj = a.user.get()
+                        notification['notification_to'] = user_obj
+                        models.Notifications(**notification).save()
 
                 notification = dict()
                 notification['text'] = "You have submitted a LOC Document for Review. "
