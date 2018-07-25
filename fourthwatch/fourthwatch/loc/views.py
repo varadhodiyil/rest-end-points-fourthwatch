@@ -97,6 +97,14 @@ class InitiateLOC(GenericAPIView):
                         names['has_approved'] = True
                     else:
                         names['has_approved'] = False
+                    
+                    if d.applicant == user:
+                        names['is_applicant'] = True
+                        names['is_beneficiary'] = False
+                    if d.beneficiary == user:
+                        names['is_beneficiary'] = True
+                        names['is_applicant']  = False
+                    
                     __data.update(names)
                     result_loc.append(__data)
                 result['result'] = result_loc
@@ -112,7 +120,12 @@ class InitiateLOC(GenericAPIView):
                 data = models.LOC.objects.filter(applicant__in=_bank_customer)
                 result_loc = list()
                 for d in data:
-                    result_loc.append(class_loc.InitialLOC().get(d.id))
+                    names = dict()
+                    names['applicant_name'] = d.applicant.name
+                    names['beneficiary_name'] = d.beneficiary.name
+                    __data = class_loc.InitialLOC().get(d.id)
+                    __data.update(names)
+                    result_loc.append(__data)
                 res['buyer'] = result_loc
 
                 bank_customers = auth_models.Customer.objects.filter(
@@ -128,7 +141,13 @@ class InitiateLOC(GenericAPIView):
 
                 result_loc = list()
                 for d in data:
-                    result_loc.append(class_loc.InitialLOC().get(d.id))
+                    names = dict()
+                    names['applicant_name'] = d.applicant.name
+                    names['beneficiary_name'] = d.beneficiary.name
+                    __data = class_loc.InitialLOC().get(d.id)
+                    __data.update(names)
+                    result_loc.append(__data)
+                    result_loc.append(__data)
                 res['seller'] = result_loc
                 result['result'] = res
 
@@ -560,7 +579,7 @@ class Customers(GenericAPIView):
             _users = auth_models.Customer.objects.all()
             users = list()
             for u in _users:
-                users.extend(u.user.filter())
+                users.extend(u.user.filter().exclude(id=user.id))
             result['status'] = True
             result['result'] = self.get_serializer(users, many=True).data
             return Response(result)

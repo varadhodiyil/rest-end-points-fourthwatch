@@ -98,6 +98,6 @@ class ForgetPasswordSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Users
-		fields = ['first_name', 'last_name',  'username']
+		fields = ['first_name', 'last_name',  'username','id']
 		read_only_fields = ['username']
 
