@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-ISDEV = True
+ISDEV = False
 if ISDEV:
     mysql_user = 'root'
     mysql_password = ''

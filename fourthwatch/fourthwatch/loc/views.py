@@ -48,7 +48,7 @@ class LOCAPI(GenericAPIView):
                     names = dict()
                     names['applicant_name'] = d.applicant.name
                     names['beneficiary_name'] = d.beneficiary.name
-                   
+
                     if d.applicant.user_type.bank.id == user.user_type.bank.id:
                         names['is_parent_bank'] = True
                     else:
@@ -74,7 +74,7 @@ class LOCAPI(GenericAPIView):
                     names = dict()
                     names['applicant_name'] = d.applicant.name
                     names['beneficiary_name'] = d.beneficiary.name
-                   
+
                     if d.beneficiary.user_type.bank.id == user.user_type.bank.id:
                         names['is_parent_bank'] = True
                     else:
@@ -117,21 +117,23 @@ class InitiateLOC(GenericAPIView):
                         names['has_approved'] = True
                     else:
                         names['has_approved'] = False
-                    
+
                     if d.applicant == user:
                         names['is_applicant'] = True
                         names['is_beneficiary'] = False
                     if d.beneficiary == user:
                         names['is_beneficiary'] = True
-                        names['is_applicant']  = False
-                    
+                        names['is_applicant'] = False
+
                     __data.update(names)
                     result_loc.append(__data)
                 result['result'] = result_loc
             elif type(user.user_type) == auth_models.BankEmployee:
+                
                 res = dict()
                 bank_customers = auth_models.Customer.objects.filter(
                     bank=user.user_type.bank)
+                
                 _bank_customer = list()
                 for b in bank_customers:
                     _b = b.user.filter()
@@ -143,7 +145,7 @@ class InitiateLOC(GenericAPIView):
                     names = dict()
                     names['applicant_name'] = d.applicant.name
                     names['beneficiary_name'] = d.beneficiary.name
-                   
+
                     if d.applicant.user_type.bank.id == user.user_type.bank.id:
                         names['is_parent_bank'] = True
                     else:
@@ -153,17 +155,9 @@ class InitiateLOC(GenericAPIView):
                     result_loc.append(__data)
                 res['buyer'] = result_loc
 
-                bank_customers = auth_models.Customer.objects.filter(
-                    bank=user.user_type.bank)
-                _bank_customer = list()
-                for b in bank_customers:
-                    _b = b.user.filter()
-                    if _b.count() > 0:
-                        _bank_customer.append(_b.get())
-
+                
                 data = models.LOC.objects.filter(
                     beneficiary__in=_bank_customer)
-
                 result_loc = list()
                 for d in data:
                     names = dict()
@@ -175,7 +169,6 @@ class InitiateLOC(GenericAPIView):
                         names['is_parent_bank'] = False
                     __data = class_loc.InitialLOC().get(d.id)
                     __data.update(names)
-                    result_loc.append(__data)
                     result_loc.append(__data)
                 res['seller'] = result_loc
                 result['result'] = res
