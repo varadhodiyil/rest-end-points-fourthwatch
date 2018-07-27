@@ -112,7 +112,7 @@ class InitiateLOC(GenericAPIView):
                     names['beneficiary_name'] = d.beneficiary.name
                     __data = class_loc.InitialLOC().get(d.id)
                     has_approved = models.Transaction.objects.filter(
-                        party=user, type="APPROVE")
+                        party=user, type="APPROVE",loc=d)
                     if has_approved.count() > 0:
                         names['has_approved'] = True
                     else:
@@ -145,7 +145,12 @@ class InitiateLOC(GenericAPIView):
                     names = dict()
                     names['applicant_name'] = d.applicant.name
                     names['beneficiary_name'] = d.beneficiary.name
-
+                    has_approved = models.Transaction.objects.filter(
+                        party=user, type="APPROVE",loc=d)
+                    if has_approved.count() > 0:
+                        names['has_approved'] = True
+                    else:
+                        names['has_approved'] = False
                     if d.applicant.user_type.bank.id == user.user_type.bank.id:
                         names['is_parent_bank'] = True
                     else:
@@ -161,6 +166,12 @@ class InitiateLOC(GenericAPIView):
                 result_loc = list()
                 for d in data:
                     names = dict()
+                    has_approved = models.Transaction.objects.filter(
+                        party=user, type="APPROVE",loc=d)
+                    if has_approved.count() > 0:
+                        names['has_approved'] = True
+                    else:
+                        names['has_approved'] = False
                     names['applicant_name'] = d.applicant.name
                     names['beneficiary_name'] = d.beneficiary.name
                     if d.beneficiary.user_type.bank.id == user.user_type.bank.id:
